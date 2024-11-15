@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2024 at 04:54 PM
+-- Generation Time: Nov 15, 2024 at 10:41 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.5
 
@@ -54,9 +54,25 @@ CREATE TABLE `tbl_booking` (
   `booking_datetime` varchar(50) NOT NULL,
   `booking_amount` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
-  `completed_datetime` varchar(50) NOT NULL,
   `order_id` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_booking`
+--
+
+INSERT INTO `tbl_booking` (`booking_id`, `booking_status`, `booking_datetime`, `booking_amount`, `customer_id`, `order_id`) VALUES
+(1, 5, '2024-08-24', 912, 17, ''),
+(3, 1, '2024-08-30', 2000, 19, ''),
+(4, 1, '2024-09-01', 2000, 15, ''),
+(7, 1, '2024-08-30', 2000, 19, ''),
+(8, 5, '2024-08-30', 2000, 19, ''),
+(9, 5, '2024-09-01', 912, 20, ''),
+(10, 1, '2024-09-01', 2000, 15, ''),
+(11, 5, '2024-09-01', 2000, 15, ''),
+(12, 1, '2024-11-15 13:47:48', 2000, 35, ''),
+(13, 1, '2024-11-15 13:47:48', 2000, 35, '639648'),
+(14, 2, '2024-11-15 13:47:48', 2000, 35, '481421');
 
 -- --------------------------------------------------------
 
@@ -95,8 +111,34 @@ CREATE TABLE `tbl_cart` (
   `cart_status` int(11) NOT NULL DEFAULT 0,
   `cart_quantity` int(11) NOT NULL DEFAULT 1,
   `product_id` int(11) NOT NULL,
-  `booking_id` int(11) NOT NULL
+  `booking_id` int(11) NOT NULL,
+  `completed_datetime` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_cart`
+--
+
+INSERT INTO `tbl_cart` (`cart_id`, `cart_status`, `cart_quantity`, `product_id`, `booking_id`, `completed_datetime`) VALUES
+(1, 1, 2, 2, 1, ''),
+(3, 0, 4, 8, 2, ''),
+(4, 0, 1, 2, 2, ''),
+(5, 0, 1, 9, 2, ''),
+(6, 1, 3, 8, 3, ''),
+(7, 1, 1, 3, 4, ''),
+(8, 1, 1, 3, 3, ''),
+(9, 0, 1, 8, 5, ''),
+(10, 0, 1, 3, 5, ''),
+(11, 0, 1, 3, 6, ''),
+(12, 1, 1, 9, 7, ''),
+(13, 1, 1, 9, 8, ''),
+(14, 1, 2, 3, 9, ''),
+(15, 1, 1, 9, 10, ''),
+(16, 1, 1, 9, 11, ''),
+(17, 1, 1, 3, 12, ''),
+(18, 1, 1, 9, 12, ''),
+(19, 5, 2, 3, 13, '2024-11-15 13:47:21'),
+(20, 1, 1, 9, 14, '');
 
 -- --------------------------------------------------------
 
@@ -328,28 +370,7 @@ INSERT INTO `tbl_servicebooking` (`servicebooking_id`, `servicebooking_date`, `s
 (9, '2024-09-21', '2024-09-22', 29, 1, '13:09', 0, '', 7),
 (10, '2024-09-21', '2024-09-22', 29, 1, '13:09', 1, '', 7),
 (11, '2024-09-21', '2024-09-28', 29, 1, '15:23', 3, '14:23', 8),
-(12, '2024-09-23', '2024-09-24', 35, 1, '09:30', 0, '', 0),
-(13, '2024-10-19', '2024-10-27', 35, 8, '10:14', 0, '', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_servicegallery`
---
-
-CREATE TABLE `tbl_servicegallery` (
-  `gallery_id` int(11) NOT NULL,
-  `service_id` int(11) NOT NULL,
-  `gallery_image` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tbl_servicegallery`
---
-
-INSERT INTO `tbl_servicegallery` (`gallery_id`, `service_id`, `gallery_image`) VALUES
-(2, 8, 'Screenshot 2023-05-16 164448.png'),
-(3, 8, 'Screenshot 2023-05-22 110956.png');
+(12, '2024-09-23', '2024-09-24', 35, 1, '09:30', 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -360,18 +381,21 @@ INSERT INTO `tbl_servicegallery` (`gallery_id`, `service_id`, `gallery_image`) V
 CREATE TABLE `tbl_services` (
   `service_id` int(11) NOT NULL,
   `service_name` varchar(50) NOT NULL,
-  `service_rate` varchar(50) NOT NULL,
-  `service_details` varchar(50) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  `service_duration` varchar(50) NOT NULL
+  `service_rate` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tbl_services`
 --
 
-INSERT INTO `tbl_services` (`service_id`, `service_name`, `service_rate`, `service_details`, `category_id`, `service_duration`) VALUES
-(8, 'Service', '100', 'hi', 7, '2hrs');
+INSERT INTO `tbl_services` (`service_id`, `service_name`, `service_rate`) VALUES
+(1, 'hair cutting', '400'),
+(2, '', ''),
+(3, '', ''),
+(4, '', ''),
+(5, '', ''),
+(6, '', ''),
+(7, '', '');
 
 -- --------------------------------------------------------
 
@@ -530,12 +554,6 @@ ALTER TABLE `tbl_servicebooking`
   ADD PRIMARY KEY (`servicebooking_id`);
 
 --
--- Indexes for table `tbl_servicegallery`
---
-ALTER TABLE `tbl_servicegallery`
-  ADD PRIMARY KEY (`gallery_id`);
-
---
 -- Indexes for table `tbl_services`
 --
 ALTER TABLE `tbl_services`
@@ -573,7 +591,7 @@ ALTER TABLE `tbl_admin`
 -- AUTO_INCREMENT for table `tbl_booking`
 --
 ALTER TABLE `tbl_booking`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tbl_brand`
@@ -585,7 +603,7 @@ ALTER TABLE `tbl_brand`
 -- AUTO_INCREMENT for table `tbl_cart`
 --
 ALTER TABLE `tbl_cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `tbl_category`
@@ -621,7 +639,7 @@ ALTER TABLE `tbl_place`
 -- AUTO_INCREMENT for table `tbl_product`
 --
 ALTER TABLE `tbl_product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbl_review`
@@ -633,19 +651,13 @@ ALTER TABLE `tbl_review`
 -- AUTO_INCREMENT for table `tbl_servicebooking`
 --
 ALTER TABLE `tbl_servicebooking`
-  MODIFY `servicebooking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- AUTO_INCREMENT for table `tbl_servicegallery`
---
-ALTER TABLE `tbl_servicegallery`
-  MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `servicebooking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_services`
 --
 ALTER TABLE `tbl_services`
-  MODIFY `service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_staff`
